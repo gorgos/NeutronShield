@@ -10,7 +10,9 @@
 
 ---
 
-![NeutronShield Logo](logo.png)
+<p align="center">
+  <img src="logo.png" width="180" alt="NeutronShield Logo">
+</p>
 
 **NeutronShield** is an InterChain DeFi Liquidation Manager designed to protect your perp positions from liquidation. This project was developed during the HackWasm 2023 hackathon in Berlin.
 
