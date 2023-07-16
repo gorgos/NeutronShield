@@ -176,7 +176,7 @@ const Layout = () => {
             <div
               style={{ fontSize: "20px" }}
             >
-              Interchange Defi Liquidation Prevention
+              InterChain DeFi Management
             </div>
           </div>
         </Flex>

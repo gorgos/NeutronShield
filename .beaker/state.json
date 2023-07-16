@@ -8,6 +8,15 @@
       "proposal": {
         "store_code": null
       }
+    },
+    "neutronshield": {
+      "code_id": 1170,
+      "addresses": {
+        "default": "neutron1w3m8qu9j68nrjfcutpdntrw3m2wsp4qwmqvgss3vdkuyhcyuj0ushlxphf"
+      },
+      "proposal": {
+        "store_code": null
+      }
     }
   }
 }
