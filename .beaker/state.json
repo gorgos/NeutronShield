@@ -1,0 +1,13 @@
+{
+  "neutron": {
+    "counter": {
+      "code_id": 1112,
+      "addresses": {
+        "default": "neutron1pnudnh6t7t3qq5m9sytrvv8mjlq087xxehty46st8n4afjcyn0asfnnxp5"
+      },
+      "proposal": {
+        "store_code": null
+      }
+    }
+  }
+}

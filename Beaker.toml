@@ -1,0 +1,15 @@
+name = "ica-neutron-dapp"
+
+account_prefix  = 'neutron'
+derivation_path = '''m/44'/118'/0'/0/0'''
+gas_adjustment  = 1.3
+gas_price       = '0.025untrn'
+
+[networks.neutron]
+chain_id        = 'pion-1'
+grpc_endpoint   = 'http://grpc-palvus.pion-1.ntrn.tech'
+network_variant = 'Shared'
+rpc_endpoint    = 'https://rpc-palvus.pion-1.ntrn.tech'
+
+[wasm]
+optimizer_version = '0.12.13'
