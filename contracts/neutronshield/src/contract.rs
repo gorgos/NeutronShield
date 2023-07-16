@@ -184,7 +184,7 @@ pub mod execute {
         }
 
         let any_msg = ProtobufAny {
-            type_url: "/cosmos.staking.v1beta1.MsgDelegate".to_string(),
+            type_url: "/injective.exchange.v1beta1.MsgIncreasePositionMargin".to_string(),
             value: Binary::from(buf),
         };
 
