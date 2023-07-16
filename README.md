@@ -39,6 +39,10 @@ cargo install -f beaker # `-f` flag for up-to-date version
 beaker wasm build
 ```
 
+## 🎥 Demo
+
+You can find a demo video here: [https://youtu.be/Ehx3LWxnCJ0](https://youtu.be/Ehx3LWxnCJ0).
+
 ## 📚 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
