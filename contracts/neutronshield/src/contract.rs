@@ -14,7 +14,7 @@ use neutron_sdk::bindings::types::{KVKey, StorageValue};
 use neutron_sdk::interchain_queries::types::{KVReconstruct, QueryPayload};
 use neutron_sdk::interchain_txs::helpers::get_port_id;
 use neutron_sdk::sudo::msg::SudoMsg;
-use neutron_sdk::{NeutronError, NeutronResult};
+use neutron_sdk::NeutronResult;
 use protobuf::Message;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -104,9 +104,7 @@ pub fn is_position_close_to_liquidation(
 pub mod execute {
     use cosmwasm_std::{CosmosMsg, StdResult, SubMsg};
     use injective_cosmwasm::{MarketId, SubaccountId};
-    use injective_std::types::injective::exchange::v1beta1::MsgIncreasePositionMargin;
     use neutron_sdk::{bindings::types::ProtobufAny, query::min_ibc_fee::query_min_ibc_fee};
-    use prost::Message;
 
     use crate::state::{save_reply_payload, SudoPayload, INTERCHAIN_ACCOUNTS};
 
@@ -154,39 +152,45 @@ pub mod execute {
         env: Env,
         interchain_account_id: String,
         timeout: Option<u64>,
-        market_id: MarketId,
-        subaccount_id: SubaccountId,
-        amount: FPDecimal,
+        _market_id: MarketId,
+        _subaccount_id: SubaccountId,
+        _amount: FPDecimal,
     ) -> NeutronResult<Response<NeutronMsg>> {
         // Get the delegator address from the storage & form the Delegate message.
         let ica_response = get_ica(deps.as_ref(), &env, &interchain_account_id)?;
 
-        let increase_position_margin_msg = MsgIncreasePositionMargin {
-            market_id: market_id.as_str().to_string(),
-            amount: amount.to_string(),
-            sender: ica_response.address,
-            source_subaccount_id: subaccount_id.to_string(),
-            destination_subaccount_id: subaccount_id.to_string(),
+        // TODO fix this
+        // let increase_position_margin_msg =
+        //     injective_std::types::injective::exchange::v1beta1::MsgIncreasePositionMargin {
+        //         market_id: market_id.as_str().to_string(),
+        //         amount: amount.to_string(),
+        //         sender: ica_response.address,
+        //         source_subaccount_id: subaccount_id.to_string(),
+        //         destination_subaccount_id: subaccount_id.to_string(),
+        //     };
+
+        // let mut buf = Vec::new();
+        // buf.reserve(increase_position_margin_msg.encoded_len());
+
+        // if let Err(e) = increase_position_margin_msg.encode(&mut buf) {
+        //     return Err(neutron_sdk::NeutronError::Std(StdError::generic_err(format!(
+        //         "Encode error: {}",
+        //         e
+        //     ))));
+        // }
+
+        // TODO wrap in authz MsgExec
+        let any_msg = ProtobufAny {
+            type_url: "/injective.exchange.v1beta1.MsgIncreasePositionMargin".to_string(),
+            // value: Binary::from(buf),
+            value: Binary::from_base64(
+                "eyAiaW5jcmVhc2VfcG9zaXRpb25fbWFyZ2luIjogeyAiYW1vdW50IjogMTAwIH19",
+            )?,
         };
 
         // contract must pay for relaying of acknowledgements
         // See more info here: https://docs.neutron.org/neutron/feerefunder/overview
         let fee = min_ntrn_ibc_fee(query_min_ibc_fee(deps.as_ref())?.min_fee);
-
-        let mut buf = Vec::new();
-        buf.reserve(increase_position_margin_msg.encoded_len());
-
-        if let Err(e) = increase_position_margin_msg.encode(&mut buf) {
-            return Err(NeutronError::Std(StdError::generic_err(format!(
-                "Encode error: {}",
-                e
-            ))));
-        }
-
-        let any_msg = ProtobufAny {
-            type_url: "/injective.exchange.v1beta1.MsgIncreasePositionMargin".to_string(),
-            value: Binary::from(buf),
-        };
 
         let cosmos_msg = NeutronMsg::submit_tx(
             ica_response.controller_connection_id,
