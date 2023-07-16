@@ -186,10 +186,10 @@ const Layout = () => {
         {status === 'Connected' && isInjectiveConnected && <MsgGrant onChecked={handleToggle} isChecked={isChecked} />}
       </Flex>
 
-      {status === 'Connected' && isChecked && <MarketDropdown onSelect={handleSelect} marketSelected={marketSelected} />}
+      {status === 'Connected' && isChecked && !isInjectiveConnected && <MarketDropdown onSelect={handleSelect} marketSelected={marketSelected} />}
 
-      {marketSelected && isChecked ? <Chart /> : <div></div>}
-      {marketSelected && isChecked ? <AutoTopUp /> : <div></div>}
+      {marketSelected && isChecked && !isInjectiveConnected ? <Chart /> : <div></div>}
+      {marketSelected && isChecked && !isInjectiveConnected ? <AutoTopUp /> : <div></div>}
 
     </div>
   );

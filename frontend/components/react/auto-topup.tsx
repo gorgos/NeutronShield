@@ -11,28 +11,24 @@ export const AutoTopUp = () => {
 
   const handleTopUp = async () => {
 
-    const signingClient = neutronShield.getSigningClient(contractAddress)
+    try {
+      const signingClient = neutronShield.getSigningClient(contractAddress)
 
-    await signingClient.registerInjectivePositionQuery({
-      connection_id: '1',
-      market_id: '0x123',
-      subaccount_id: '0x456',
-      update_period: 3
-    }, {
-      amount: [{
-        denom: 'ntrn',
-        amount: '300000'
-      }],
-      gas: '400000'
-    },)
-
-    // await signingClient.register({ connectionId: '1', interchainAccountId: '1' }, {
-    //   amount: [{
-    //     denom: 'ntrn',
-    //     amount: '300000'
-    //   }],
-    //   gas: '400000'
-    // },)
+      await signingClient.registerInjectivePositionQuery({
+        connection_id: '1',
+        market_id: '0x123',
+        subaccount_id: '0x456',
+        update_period: 3
+      }, {
+        amount: [{
+          denom: 'ntrn',
+          amount: '300000'
+        }],
+        gas: '400000'
+      },)
+    } catch (e) {
+      console.log({ e })
+    }
   }
 
   const handleToggled = () => {
